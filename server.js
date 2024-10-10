@@ -29,8 +29,6 @@ app.use(errorHandler);
 // app.get("/", (req, res) => {
 //   res.send("the server is ready");
 
-app.get("/", async (req, res) => res.send("server is ready"));
-
 // });
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
