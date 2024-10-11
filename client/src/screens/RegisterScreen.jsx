@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "sonner";
 import Loader from "../components/Loader";
-import { CleaningServices } from "@mui/icons-material";
 
 function RegisterScreen() {
   const [name, setName] = useState("");
