@@ -4,12 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
+import ProfileDropdown from "./ProfileDropdown";
+import { FaUser } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
 
 function Header() {
   const [burger, setBurger] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-
+  const [sideProfile, setSideProfile] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -54,7 +57,7 @@ function Header() {
       shadow-md`}
     >
       <Link to="/" className="flex">
-        <h1 className=" font-black text-2xl">ORB Academy</h1>
+        <h1 className=" font-black text-2xl">Wizer Skills</h1>
       </Link>
       <div className="lg:flex  max-lg:hidden ">
         <Link to="/" className=" font-semibold mx-3">
@@ -73,17 +76,10 @@ function Header() {
       <div className="sm:flex space-x-8 max-sm:hidden ">
         {userInfo ? (
           <>
-            <NavDropdown title={userInfo.name} id="username">
-              <NavDropdown.Item>
-                <Link to="/profile">Profile</Link>
-              </NavDropdown.Item>
-
-              <Link>
-                <NavDropdown.Item onClick={logoutHandler}>
-                  Logout
-                </NavDropdown.Item>
-              </Link>
-            </NavDropdown>
+            <ProfileDropdown
+              userInfo={userInfo}
+              logoutHandler={logoutHandler}
+            ></ProfileDropdown>
           </>
         ) : (
           <>
@@ -161,6 +157,40 @@ function Header() {
             
         `}
       >
+        {userInfo ? (
+          <div className=" flex flex-col border p-3">
+            <Link
+              className=" flex"
+              onClick={(e) => setSideProfile(!sideProfile)}
+            >
+              <FaUser></FaUser> <span className=" ml-2">{userInfo.name}</span>
+            </Link>
+
+            {sideProfile ? (
+              <div className=" flex flex-col ">
+                <Link to="/profile">
+                  <span className=" flex items-center space-y-2">
+                    <FaUser></FaUser> <span>Profile</span>
+                  </span>
+                </Link>
+                <Link onClick={logoutHandler} className=" flex items-center">
+                  <IoLogOutOutline
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                  <span>Logout</span>
+                </Link>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
+
         <Link
           to="/"
           className={` burgLink  text-xl font-semibold mx-3 ${
@@ -202,24 +232,30 @@ function Header() {
           Contact Us
         </Link>
 
-        <Link to={"/login"}>
-          <button
-            onClick={handleLogin}
-            className="w-36 h-14 border border-black rounded-full font-semibold  max-sm:inline sm:hidden"
-          >
-            Login
-          </button>
-        </Link>
+        {userInfo ? (
+          <></>
+        ) : (
+          <>
+            <Link to={"/login"}>
+              <button
+                onClick={handleLogin}
+                className="w-36 h-14 border border-black rounded-full font-semibold  max-sm:inline sm:hidden"
+              >
+                Login
+              </button>
+            </Link>
 
-        <Link to={"/register"}>
-          <button
-            href="/register"
-            onClick={handleSignup}
-            className=" bg-black text-white font-semibold w-36 h-14 rounded-full max-sm:inline sm:hidden  "
-          >
-            Signup
-          </button>
-        </Link>
+            <Link to={"/register"}>
+              <button
+                href="/register"
+                onClick={handleSignup}
+                className=" bg-black text-white font-semibold w-36 h-14 rounded-full max-sm:inline sm:hidden  "
+              >
+                Signup
+              </button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
