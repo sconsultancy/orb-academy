@@ -1,8 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Hero_Dropdown from "./Hero_Dropdown.jsx";
+import axios from "axios";
 
 function HeroForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [country, setCountry] = useState("");
+
   const handleFocusInput = (e) => {
     const labels = document.getElementsByTagName("label");
     e.target.style.borderColor = "rgb(30 64 175)";
@@ -27,6 +33,20 @@ function HeroForm() {
       }
     }
   };
+
+  const handleButtonClick = async (e) => {
+    e.preventDefault();
+
+    const res = await axios.post("/api/callback", {
+      name,
+      email,
+      number,
+      country,
+    });
+
+    console.log(res);
+  };
+
   return (
     <div className="">
       <form action="#" className="flex flex-col space-y-4 pt-3    ">
@@ -39,6 +59,7 @@ function HeroForm() {
             name="name"
             onFocus={handleFocusInput}
             onBlur={handleBlurInput}
+            onChange={(e) => setName(e.target.value)}
           />
           <label
             htmlFor="hero_form_name"
@@ -56,6 +77,7 @@ function HeroForm() {
               className="border-b-2 outline-none text-[17px] border-b-gray-300 transition-colors  duration-300     h-9  w-full"
               onFocus={handleFocusInput}
               onBlur={handleBlurInput}
+              onChange={(e) => setNumber(e.target.value)}
             />
             {/* <label className="inputLabel"></label> */}
             {/* <button className=" bg-gradient-to-r from-blue-400 to-emerald-400 rounded-md text-white font-semibold text-[13px] w-24">
@@ -77,6 +99,7 @@ function HeroForm() {
             className="border-b-2 outline-none text-[17px] border-b-gray-300 transition-colors  duration-300     h-9  w-full"
             onFocus={handleFocusInput}
             onBlur={handleBlurInput}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <label
             htmlFor="hero_form_email"
@@ -86,13 +109,14 @@ function HeroForm() {
           </label>
         </div>
 
-        <Hero_Dropdown></Hero_Dropdown>
+        <Hero_Dropdown setCountry={setCountry}></Hero_Dropdown>
 
         <button
           type="submit"
           className="h-10 bg-gradient-to-r from-sky-400 to-indigo-900 font-bold text-white z-20"
+          onClick={handleButtonClick}
         >
-          Schedule a Free Class
+          Schedule a Call back
         </button>
       </form>
     </div>

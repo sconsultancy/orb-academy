@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function Hero_Dropdown() {
+function Hero_Dropdown({ setCountry }) {
   const [contentIsVisible, setContentIsVisible] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const countryList = [
@@ -211,6 +211,11 @@ function Hero_Dropdown() {
     "Zimbabwe",
   ];
   const [filteredCountry, setFilteredCountry] = useState(countryList);
+  useEffect(() => {
+    setCountry(selectedCountry);
+  }, [selectedCountry]);
+
+  // setCountry(selectedCountry);
 
   const handleSelectBtn = (e) => {
     e.preventDefault();

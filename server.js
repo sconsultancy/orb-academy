@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
+import emailRoutes from "./routes/emailRoutes.js";
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -22,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoutes);
-
+app.use(emailRoutes);
 // app.use(notFound);
 app.use(errorHandler);
 
