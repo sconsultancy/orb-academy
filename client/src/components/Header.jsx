@@ -159,12 +159,12 @@ function Header() {
       >
         {userInfo ? (
           <div className=" flex flex-col border p-3">
-            <Link
+            <span
               className=" flex"
               onClick={(e) => setSideProfile(!sideProfile)}
             >
               <FaUser></FaUser> <span className=" ml-2">{userInfo.name}</span>
-            </Link>
+            </span>
 
             {sideProfile ? (
               <div className=" flex flex-col ">

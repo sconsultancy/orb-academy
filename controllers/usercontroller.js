@@ -91,9 +91,16 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
+  // console.log("/");
+
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.type = req.body.type || user.type;
+    user.number = req.body.number || user.number;
+    user.password = req.body.password || user.password;
+
+    // console.log(user);
   } else {
     res.status(404);
     throw new Error("user not found");

@@ -9,15 +9,13 @@ const ProfileDropdown = ({ userInfo, logoutHandler }) => {
 
   return (
     <div>
-      <Link>
-        <div
-          id="nav-profile"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          className=" flex items-center "
-        >
-          <FaUser></FaUser> <span className=" ml-2">{userInfo.name}</span>
-        </div>
-      </Link>
+      <div
+        id="nav-profile"
+        onClick={() => setDropdownOpen(!dropdownOpen)}
+        className=" flex items-center "
+      >
+        <FaUser></FaUser> <span className=" ml-2">{userInfo.name}</span>
+      </div>
 
       <div
         className={` bg-white ${
