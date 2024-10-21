@@ -19,6 +19,9 @@ function App() {
 export default App;
 /*
 -> Change Side Navbar span cursor design to hand
+-> Register normally later on if someone wants to teach then ok no seperate category 
+
+
 
 
 

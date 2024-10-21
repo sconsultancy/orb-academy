@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
+import courseRoutes from "./routes/coursesRoutes.js";
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -24,13 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoutes);
 app.use(emailRoutes);
+app.use(courseRoutes);
 // app.use(notFound);
 app.use(errorHandler);
 
+console.log(path.join(path.resolve(), "uploads"));
+
 // app.get("/", (req, res) => {
 //   res.send("the server is ready");
-
 // });
+
+// app.use(express.static(path.join(path.resolve(), "uploads")));
+
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, "client/dist")));

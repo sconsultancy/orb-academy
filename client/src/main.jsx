@@ -18,6 +18,10 @@ import ProfileScreen from "./screens/ProfileScreen.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import TeacherScreen from "./screens/TeacherScreen.jsx";
 import AddClassScreen from "./screens/AddClassScreen.jsx";
+import TeacherEditScreen from "./screens/TeacherEditScreen.jsx";
+
+// const { id } = useParams();
+// console.log(useParams());
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +41,10 @@ const router = createBrowserRouter(
         <Route
           path="/teacher"
           element={<TeacherScreen></TeacherScreen>}
+        ></Route>
+        <Route
+          path="/teacher/:id"
+          element={<TeacherEditScreen></TeacherEditScreen>}
         ></Route>
         <Route
           path="/add-class"
