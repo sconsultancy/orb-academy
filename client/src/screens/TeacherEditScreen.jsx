@@ -14,6 +14,7 @@ function TeacherEditScreen() {
 	useEffect(() => {
 		axios.post("/api/course/edit", { _id: id }).then((e) => {
 			setCourse(e.data.course[0]);
+			console.log(e.data);
 		});
 	}, []);
 
@@ -55,6 +56,20 @@ function TeacherEditScreen() {
 					alt=""
 				/>
 			</span>
+
+			{/* Add course Content  here */}
+			<span>
+				{course.courseContent?.map((e) => {
+					return (
+						<div>
+							<h1>{e.className}</h1>
+							<h2>Vid Number: {e.vidNumber}</h2>
+							<video src={`/api/download/video/${e.fileName}`} controls></video>
+						</div>
+					);
+				})}
+			</span>
+
 			<span>
 				<input
 					type="number"

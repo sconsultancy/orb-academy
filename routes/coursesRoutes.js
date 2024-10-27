@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
 		cb(null, `${nanoid()}-${file.originalname}`);
 	},
 });
-
 const upload = multer({ storage });
 
 router.post("/api/add-course", upload.single("picture"), async (req, res) => {
@@ -106,6 +105,7 @@ router.post("/api/add-class", uploadVideo.single("video"), async (req, res) => {
 
 	const fileName = req.file.filename;
 	const filePath = req.file.path;
+	const classId = nanoid();
 
 	// console.log(req.file);
 
@@ -114,6 +114,7 @@ router.post("/api/add-class", uploadVideo.single("video"), async (req, res) => {
 		vidNumber,
 		fileName,
 		filePath,
+		classId,
 	});
 
 	const updatedCourse = await course.save();
@@ -123,6 +124,29 @@ router.post("/api/add-class", uploadVideo.single("video"), async (req, res) => {
 	res.send({
 		updatedCourseContent: updatedCourse.courseContent,
 	});
+});
+
+// Router to Send Video to frontend
+router.get("/api/download/video/:filename", (req, res) => {
+	const fileName = req.params.filename;
+	const filePath = path.join(
+		path.resolve(),
+		"uploads",
+		"course",
+		"video",
+		fileName
+	);
+	// res.send()
+
+	try {
+		if (fs.existsSync(filePath)) {
+			res.sendFile(filePath);
+		} else {
+			res.status(404).json({ message: "File not found" });
+		}
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 export default router;
