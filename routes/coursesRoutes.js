@@ -107,7 +107,7 @@ router.post("/api/add-class", uploadVideo.single("video"), async (req, res) => {
 	const filePath = req.file.path;
 	const classId = nanoid();
 
-	// console.log(req.file);
+	console.log(req.file);
 
 	course.courseContent.push({
 		className,
@@ -122,7 +122,7 @@ router.post("/api/add-class", uploadVideo.single("video"), async (req, res) => {
 	console.log(updatedCourse);
 
 	res.send({
-		updatedCourseContent: updatedCourse.courseContent,
+		updatedCourse,
 	});
 });
 
@@ -147,6 +147,34 @@ router.get("/api/download/video/:filename", (req, res) => {
 	} catch (err) {
 		console.log(err);
 	}
+});
+
+// Router to delete video from a course
+router.post("/api/delete-class", async (req, res) => {
+	// find the course from the course._id
+	const course = await Course.findOne({ _id: req.body.course._id });
+
+	// Deleting it from DB
+	const newCourseContent = [];
+	course.courseContent.map((e) => {
+		if (e.classId == req.body.vidId) {
+			// Delete file from FS
+			if (fs.existsSync(e.filePath)) {
+				fs.unlinkSync(e.filePath);
+			} else {
+				console.log("file not found");
+				res.status(404).json({ message: "File not found" });
+			}
+		} else {
+			newCourseContent.push(e);
+		}
+	});
+
+	course.courseContent = newCourseContent;
+
+	const updatedCourse = await course.save();
+
+	res.send({ updatedCourse });
 });
 
 export default router;
