@@ -13,18 +13,20 @@ const CourseScreen = () => {
 	}, []);
 
 	return (
-		<div className=" pt-48">
-			Course Page
+		<div className=" pt-32">
 			{courses.map((e) => {
 				return (
-					<CourseCard
-						fileName={e.coursePicture?.fileName}
-						name={e.courseName}
-						details={e.courseDetails}
-						teacherId={e.teacherId}
-						difficulty={e.courseDifficulty}
-						price={e.coursePrice}
-					></CourseCard>
+					<div className=" flex my-5  justify-center">
+						<CourseCard
+							fileName={e.coursePicture?.fileName}
+							name={e.courseName}
+							details={e.courseDetails}
+							teacherId={e.teacherId}
+							difficulty={e.courseDifficulty}
+							price={e.coursePrice}
+							courseId={e._id}
+						></CourseCard>
+					</div>
 				);
 			})}
 		</div>

@@ -97,7 +97,7 @@ function TeacherEditScreen() {
 
 	// handle Change in Details text area
 	const handleCourseDetailChange = (e) => {
-		const { details, editable } = courseName;
+		const { details, editable } = courseDetails;
 		setCourseDetails({ details: e.target.value, editable });
 	};
 
@@ -150,12 +150,50 @@ function TeacherEditScreen() {
 		setCourse(res.data.updatedCourse);
 	};
 
+	const handleEditCourseSubmit = async (e) => {
+		e.preventDefault();
+		// if Image send form data
+		const formData = new FormData();
+		if (coursePicture.editable) {
+			if (courseName.editable) {
+				formData.append("courseName", courseName.name);
+			}
+			if (courseDetails.editable) {
+				formData.append("courseDetails", courseDetails.details);
+			}
+			if (courseDifficulty.editable) {
+				formData.append("courseDifficulty", courseDifficulty.diff);
+			}
+			formData.append("id", id);
+			formData.append("picture", coursePicture.picture);
+
+			const response = await axios.post("/api/edit-course-withpic", formData);
+			setCourse(response.data.updatedCourse);
+		} else {
+			const res = await axios.post("/api/edit-course", {
+				id,
+				courseName: courseName.editable ? courseName.name : null,
+				courseDetails: courseDetails.editable ? courseDetails.details : null,
+				courseDifficulty: courseDifficulty.editable
+					? courseDifficulty.diff
+					: null,
+			});
+			setCourse(res.data.updatedCourse);
+			// console.log(res.data.updatedCourse);
+		}
+	};
+
 	// console.log(uploading.progress);
 
 	return (
-		<div className=" pt-40 flex flex-col  items-center border  ">
+		<div className=" pt-40 flex flex-col  items-center  mb-28  ">
 			<div className=" flex flex-col  space-y-5">
-				<button className=" bg-black text-white">Submit</button>
+				<button
+					onClick={handleEditCourseSubmit}
+					className=" bg-black text-white"
+				>
+					Submit
+				</button>
 
 				<div className=" border flex justify-between ">
 					<h1 className=" ">
@@ -179,7 +217,7 @@ function TeacherEditScreen() {
 				</div>
 
 				<div className=" border flex justify-between">
-					<h2>
+					<h2 className=" max-w-lg">
 						<span>Course Details: </span>
 						{course.courseDetails}
 
@@ -187,6 +225,7 @@ function TeacherEditScreen() {
 							<textarea
 								className=" w-[20em] ml-3"
 								placeholder="Enter the new Details"
+								value={courseDetails.details}
 								onChange={handleCourseDetailChange}
 							></textarea>
 						)}

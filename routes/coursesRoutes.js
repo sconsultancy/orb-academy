@@ -177,4 +177,52 @@ router.post("/api/delete-class", async (req, res) => {
 	res.send({ updatedCourse });
 });
 
+// Router to Edit Course Details
+router.post("/api/edit-course", async (req, res) => {
+	// find the course from the course._id
+	const course = await Course.findOne({ _id: req.body.id });
+	course.courseName = req.body.courseName || course.courseName;
+	course.courseDetails = req.body.courseDetails || course.courseDetails;
+	course.courseDifficulty =
+		req.body.courseDifficulty || course.courseDifficulty;
+
+	const updatedCourse = await course.save();
+	res.send({ updatedCourse });
+});
+
+// Router to Edit Course with Picture Details
+router.post(
+	"/api/edit-course-withpic",
+	upload.single("picture"),
+	async (req, res) => {
+		const course = await Course.findOne({ _id: req.body.id });
+
+		console.log(course);
+
+		console.log(course.coursePicture);
+
+		if (req.file) {
+			if (fs.existsSync(course.coursePicture.path)) {
+				fs.unlinkSync(course.coursePicture.path);
+			} else {
+				console.log("file not found");
+			}
+		}
+
+		course.courseName = req.body.courseName || course.courseName;
+		course.courseDetails = req.body.courseDetails || course.courseDetails;
+		course.courseDifficulty =
+			req.body.courseDifficulty || course.courseDifficulty;
+
+		course.coursePicture = {
+			fileName: req.file?.filename || course.coursePicture.fileName,
+			path: req.file?.path || course.coursePicture.path,
+		};
+
+		const updatedCourse = await course.save();
+		// console.log(updatedCourse);
+		res.send({ updatedCourse });
+	}
+);
+
 export default router;

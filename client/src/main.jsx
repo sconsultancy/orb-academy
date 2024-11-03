@@ -20,6 +20,8 @@ import TeacherScreen from "./screens/TeacherScreen.jsx";
 import AddClassScreen from "./screens/AddClassScreen.jsx";
 import TeacherEditScreen from "./screens/TeacherEditScreen.jsx";
 import CourseScreen from "./screens/CourseScreen.jsx";
+import ClassScreen from "./screens/ClassScreen.jsx";
+import ComingSoon from "./screens/ComingSoonScreen.jsx";
 
 // const { id } = useParams();
 // console.log(useParams());
@@ -35,6 +37,8 @@ const router = createBrowserRouter(
 			></Route>
 
 			<Route path="/courses" element={<CourseScreen></CourseScreen>}></Route>
+			<Route path="/courses/:id" element={<ClassScreen></ClassScreen>}></Route>
+			<Route path="/resources" element={<ComingSoon></ComingSoon>}></Route>
 
 			<Route path="" element={<PrivateRoute></PrivateRoute>}>
 				<Route
